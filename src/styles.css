@@ -24,7 +24,7 @@ button { font-family: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.04; margin: 0; letter-spacing: -0.02em; }
 h1 { outline: none; }
-h1.display { font-size: clamp(3.2rem, 1.6rem + 8vw, 8.4rem); font-weight: 780; line-height: 0.95; }
+h1.display { font-size: clamp(2.6rem, 1rem + 7.4vw, 7.4rem); font-weight: 780; line-height: 0.95; white-space: nowrap; }
 h1.title { font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem); font-weight: 720; max-width: 20ch; }
 h2 { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem); font-weight: 700; }
 h3 { font-size: 1.15rem; font-weight: 650; }
