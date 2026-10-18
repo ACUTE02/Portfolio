@@ -145,8 +145,16 @@ ul, ol { margin: 0; padding: 0; }
 
 .site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem; padding: 1.6rem clamp(1rem, 4vw, 2.5rem); border-top: 1px solid var(--rule); font: 500 0.75rem var(--mono); color: var(--soft); background: rgba(10,14,20,0.8); }
 .cursor-label { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; font: 600 0.72rem var(--mono); background: var(--amber); color: #0a0e14; padding: 0.3rem 0.5rem; opacity: 0; transition: opacity 150ms; }
-.wipe { display: none; position: fixed; inset: 0; z-index: 70; will-change: transform; background: linear-gradient(120deg, var(--amber), var(--rose) 60%, var(--ice)); }
-.wipe span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 4rem; color: var(--ink); }
+/* The page wipe: deep ink with contour rings (the same language as the 3D background), the destination's name and a progress line. */
+.wipe { display: none; position: fixed; inset: 0; z-index: 70; will-change: transform; background:
+  repeating-radial-gradient(circle at 30% 70%, transparent 0 34px, color-mix(in srgb, var(--amber) 14%, transparent) 34px 35px),
+  repeating-radial-gradient(circle at 75% 25%, transparent 0 42px, color-mix(in srgb, var(--ice) 12%, transparent) 42px 43px),
+  var(--ink); }
+.wipe-inner { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 1rem; text-align: center; }
+.wipe-mark { font: 600 0.8rem var(--mono); letter-spacing: 0.3em; color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 60%, transparent); border-radius: 999px; padding: 0.4rem 0.9rem; }
+.wipe-name { font: 400 clamp(2.4rem, 8vw, 5.5rem)/1 var(--serif); color: var(--text); }
+.wipe-bar { width: min(220px, 50vw); height: 2px; background: color-mix(in srgb, var(--text) 14%, transparent); overflow: hidden; }
+.wipe-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--amber), var(--rose), var(--ice)); transform-origin: left; transform: scaleX(0); }
 
 @media (max-width: 899px) {
   .nav { display: none; }

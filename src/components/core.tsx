@@ -12,6 +12,9 @@ interface Go { go: (to: string) => void }
 const GoCtx = createContext<Go>({ go: () => {} });
 export const useGo = () => useContext(GoCtx).go;
 
+const PAGE_NAMES: Record<string, string> = { "/": "Home", "/projects": "Projects", "/stack": "Stack", "/lab": "The Lab", "/journey": "Journey", "/contact": "Contact" };
+const pageName = (to: string) => PAGE_NAMES[to] ?? (to.startsWith("/projects/") ? "Project" : "Ayushmaan Gupta");
+
 /** A staged wipe over the page while the camera moves to the next pose. With reduced motion: a plain crossfade. */
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const nav = useNavigate();
@@ -28,17 +31,30 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       return;
     }
     const tl = gsap.timeline({ onComplete: () => { busy.current = false; } });
+    const name = el.querySelector<HTMLElement>(".wipe-name");
+    const inner = el.querySelector<HTMLElement>(".wipe-inner");
+    const bar = el.querySelector<HTMLElement>(".wipe-bar i");
+    if (name) name.textContent = pageName(to);
     tl.set(el, { display: "block", yPercent: 100 })
+      .set(inner, { opacity: 0, y: 14 })
+      .set(bar, { scaleX: 0 })
       .to(el, { yPercent: 0, duration: 0.5, ease: "power3.inOut" })
+      .to(inner, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, "-=0.15")
+      .to(bar, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, "<")
       .add(() => { nav(to); window.scrollTo(0, 0); })
-      .to(el, { yPercent: -100, duration: 0.55, ease: "power3.inOut", delay: 0.12 })
+      .to(inner, { opacity: 0, duration: 0.2 }, "+=0.05")
+      .to(el, { yPercent: -100, duration: 0.55, ease: "power3.inOut" })
       .set(el, { display: "none" });
   };
   return (
     <GoCtx.Provider value={{ go }}>
       {children}
       <div ref={wipe} className="wipe" aria-hidden="true">
-        <span>✦</span>
+        <div className="wipe-inner">
+          <span className="wipe-mark">AG</span>
+          <span className="wipe-name" />
+          <span className="wipe-bar"><i /></span>
+        </div>
       </div>
     </GoCtx.Provider>
   );
