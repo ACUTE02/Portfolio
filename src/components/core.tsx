@@ -28,10 +28,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       return;
     }
     const tl = gsap.timeline({ onComplete: () => { busy.current = false; } });
-    tl.set(el, { display: "block", clipPath: "inset(100% 0 0 0)" })
-      .to(el, { clipPath: "inset(0% 0 0 0)", duration: 0.5, ease: "power3.inOut" })
+    tl.set(el, { display: "block", yPercent: 100 })
+      .to(el, { yPercent: 0, duration: 0.5, ease: "power3.inOut" })
       .add(() => { nav(to); window.scrollTo(0, 0); })
-      .to(el, { clipPath: "inset(0 0 100% 0)", duration: 0.55, ease: "power3.inOut", delay: 0.12 })
+      .to(el, { yPercent: -100, duration: 0.55, ease: "power3.inOut", delay: 0.12 })
       .set(el, { display: "none" });
   };
   return (
@@ -80,7 +80,7 @@ export function Kinetic({ text, as: Tag = "span", variant = "rise", delay = 0, c
       }
       const split = SplitText.create(el, { type: "chars,words", mask: variant === "wipe" ? undefined : "words" });
       if (variant === "rise") {
-        gsap.from(split.chars, { yPercent: 110, rotate: 6, opacity: 0, filter: "blur(8px)", duration: 0.9, ease: "power4.out", stagger: 0.022, delay });
+        gsap.from(split.chars, { yPercent: 110, rotate: 6, opacity: 0, ...(scene.isTouch ? {} : { filter: "blur(8px)" }), duration: 0.9, ease: "power4.out", stagger: 0.022, delay, force3D: true });
       } else if (variant === "wipe") {
         gsap.fromTo(el, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1, ease: "power3.inOut", delay });
       } else {
@@ -176,11 +176,14 @@ export function Marquee({ items }: { items: string[] }) {
   useEffect(() => {
     let last = performance.now();
     let raf = 0;
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => { visible = !!e?.isIntersecting; }, { rootMargin: "100px" });
+    if (track.current?.parentElement) io.observe(track.current.parentElement);
     const tick = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
       const el = track.current;
-      if (el) {
+      if (el && visible) {
         const speed = scene.reduced ? 0 : 40 + Math.abs(scene.scrollV) * 260;
         x.current -= dir.current * speed * dt;
         const half = el.scrollWidth / 2;
@@ -201,6 +204,7 @@ export function Marquee({ items }: { items: string[] }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("scroll", onScroll);
     };
   }, []);

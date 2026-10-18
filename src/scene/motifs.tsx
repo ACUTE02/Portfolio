@@ -22,8 +22,10 @@ const rng = (seed: number) => {
   };
 };
 
-function Glow({ color, intensity = 1.1 }: { color: string; intensity?: number }) {
-  return <pointLight color={color} intensity={intensity * 6} distance={7} position={[1.5, 1.2, 2.2]} />;
+// The scene has a fixed set of lights (see SceneRoot). Lights that come and go would make every material recompile
+// each time a page changes, which is a visible hitch, so the motifs rely on their own emissive colour instead.
+function Glow(_props: { color: string; intensity?: number }) {
+  return null;
 }
 
 /* ------------------------------------------------------------------ TrustMesh: a graph, a waveform ring, and a hollow slot */

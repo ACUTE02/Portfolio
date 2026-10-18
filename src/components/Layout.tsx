@@ -28,6 +28,19 @@ export function Layout({ children }: { children: ReactNode }) {
     return () => cancelAnimationFrame(id);
   }, [prefs.reduced, prefs.lowPower]);
 
+  // After the first page has settled, fetch the other pages and the 3D chunk in idle time, so that a click never waits.
+  useEffect(() => {
+    const idle = (cb: () => void) => ("requestIdleCallback" in window ? (window as unknown as { requestIdleCallback: (f: () => void) => void }).requestIdleCallback(cb) : setTimeout(cb, 1200));
+    idle(() => {
+      void import("../pages/Projects");
+      void import("../pages/ProjectDetail");
+      void import("../pages/Stack");
+      void import("../pages/Lab");
+      void import("../pages/Journey");
+      void import("../pages/Contact");
+    });
+  }, []);
+
   // smooth scroll, pointer and scroll speed for the canvas
   useEffect(() => {
     const lenis = prefs.reduced ? null : new Lenis({ lerp: 0.1 });

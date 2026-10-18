@@ -1,6 +1,6 @@
 // The hero object of each page. Every one lives in the same persistent canvas and is shown by scaling it in and out.
 import { useFrame, type ThreeEvent } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   BufferAttribute, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, InstancedMesh, Object3D, Sprite, Vector3,
   type Group, type Mesh,
@@ -39,6 +39,7 @@ function place(g: Group | null, wide: number, narrow: number, dt: number, y = 0)
 }
 
 const moods = (...m: Mood[]) => () => m.includes(scene.mood);
+const TOKEN_COLORS = [PALETTE.amber, PALETTE.teal, PALETTE.rose, PALETTE.ice].map((c) => new Color(c));
 
 /* ------------------------------------------------------------------ Home: a knot of threads, nodes along it, a ring of tokens */
 export function HomeObject() {
@@ -46,6 +47,7 @@ export function HomeObject() {
   const inner = useRef<Group>(null);
   const tokens = useRef<InstancedMesh>(null);
   const dummy = useMemo(() => new Object3D(), []);
+  const colored = useRef(false);
   const { nodes, strands } = useMemo(() => {
     const knot = (t: number, p = 2, q = 3) => {
       const r = 1.2 + 0.5 * Math.cos(q * t);
@@ -75,6 +77,7 @@ export function HomeObject() {
   }, []);
   useReveal(g, moods("home"), 1.12);
   useFrame((s, dt) => {
+    if (!g.current?.visible) return;
     const t = T(s.clock);
     place(g.current, 2.6, 2.9, dt, 0.1);
     if (inner.current) {
@@ -90,15 +93,17 @@ export function HomeObject() {
         dummy.scale.setScalar(0.08 + (i % 3) * 0.03);
         dummy.updateMatrix();
         m.setMatrixAt(i, dummy.matrix);
-        m.setColorAt(i, new Color([PALETTE.amber, PALETTE.teal, PALETTE.rose, PALETTE.ice][i % 4]));
+        if (!colored.current) m.setColorAt(i, TOKEN_COLORS[i % 4]);
       }
       m.instanceMatrix.needsUpdate = true;
-      if (m.instanceColor) m.instanceColor.needsUpdate = true;
+      if (!colored.current && m.instanceColor) {
+        m.instanceColor.needsUpdate = true;
+        colored.current = true;
+      }
     }
   });
   return (
     <group ref={g} visible={false}>
-      <pointLight color={PALETTE.amber} intensity={8} distance={9} position={[2, 2, 3]} />
       <group ref={inner}>
         {strands.map((geo, i) => (
           <line key={i}>
@@ -126,8 +131,12 @@ export function Carousel() {
   const N = PROJECTS.length;
   const step = (Math.PI * 2) / N;
   const rot = useRef(0);
+  const [mounted, setMounted] = useState<boolean[]>(() => Array(PROJECTS.length).fill(false));
+  const mountedKey = useRef("");
   useReveal(g, moods("projects", "detail"));
+  const want: boolean[] = useMemo(() => Array(PROJECTS.length).fill(false), []);
   useFrame((_, dt) => {
+    if (!g.current?.visible && mountedKey.current !== "" && !mountedKey.current.includes("1")) return; // hidden and already unmounted: nothing to do
     const detail = scene.mood === "detail";
     const wanted = detail ? PROJECTS.findIndex((p) => p.slug === scene.activeSlug) : scene.carouselTarget;
     // take the shortest way round
@@ -149,7 +158,13 @@ export function Carousel() {
       const target = detail ? (front < 0.5 ? 1.2 : 0) : front < 0.5 ? 0.95 : front < 1.5 ? 0.4 : front < 2.6 ? 0.24 : 0;
       it.scale.setScalar(damp(it.scale.x, target, 5, dt));
       it.visible = it.scale.x > 0.02;
+      want[i] = !!g.current?.visible && (detail ? front < 0.8 : front < 3.6); // a little ahead of the visible range
     });
+    const key = want.map((x) => (x ? "1" : "0")).join("");
+    if (key !== mountedKey.current) {
+      mountedKey.current = key;
+      setMounted([...want]);
+    }
     if (g.current) {
       const narrow = window.innerWidth < 900;
       g.current.position.x = damp(g.current.position.x, detail && !narrow ? 2.5 : 0, 4, dt);
@@ -159,12 +174,11 @@ export function Carousel() {
   });
   return (
     <group ref={g} visible={false}>
-      <ambientLight intensity={0.5} />
       <group ref={ring}>
         {PROJECTS.map((p, i) => (
           <group key={p.slug} ref={(el) => { items.current[i] = el; }}>
             <group rotation={[0.38, 0, 0]}>
-              <Motif id={p.motif} color={p.color} />
+              {mounted[i] && <Motif id={p.motif} color={p.color} />}
             </group>
           </group>
         ))}
@@ -198,6 +212,14 @@ export function StackGraph() {
     });
     return { pos: p, groupColor: gc };
   }, []);
+  const nbr = useMemo(() => {
+    const m: Record<string, Set<string>> = {};
+    for (const [a, b] of LINKS) {
+      (m[a] ??= new Set()).add(b);
+      (m[b] ??= new Set()).add(a);
+    }
+    return m;
+  }, []);
   const baseLines = useMemo(() => {
     const arr: number[] = [];
     for (const [a, b] of LINKS) if (pos[a] && pos[b]) arr.push(...pos[a].toArray(), ...pos[b].toArray());
@@ -223,6 +245,7 @@ export function StackGraph() {
   }, []);
   useReveal(g, moods("stack"), 0.7);
   useFrame((s, dt) => {
+    if (!g.current?.visible) return;
     place(g.current, 2.4, 2.4, dt, 0);
     if (spin.current && !scene.hover) spin.current.rotation.y += dt * (scene.reduced ? 0.02 : 0.12);
     if (spin.current) spin.current.rotation.x = damp(spin.current.rotation.x, -scene.py * 0.25, 3, dt);
@@ -230,7 +253,7 @@ export function StackGraph() {
     for (const sk of SKILLS) {
       const m = spheres.current[sk.id];
       if (!m) continue;
-      const on = scene.hover === sk.id || (scene.hover && LINKS.some(([a, b]) => (a === scene.hover && b === sk.id) || (b === scene.hover && a === sk.id)));
+      const on = scene.hover === sk.id || (scene.hover !== null && nbr[scene.hover]?.has(sk.id));
       const target = on ? 1.9 : scene.hover ? 0.7 : 1;
       m.scale.setScalar(damp(m.scale.x, target, 8, dt) * (1 + Math.sin(t * 2 + sk.id.length) * 0.02));
     }
@@ -238,7 +261,7 @@ export function StackGraph() {
     for (const sk of SKILLS) {
       const sp = sprites.current[sk.id];
       if (!sp) continue;
-      const on = !scene.hover || scene.hover === sk.id || LINKS.some(([a, b]) => (a === scene.hover && b === sk.id) || (b === scene.hover && a === sk.id));
+      const on = !scene.hover || scene.hover === sk.id || nbr[scene.hover]?.has(sk.id);
       (sp.material as unknown as { opacity: number }).opacity = damp((sp.material as unknown as { opacity: number }).opacity, on ? 1 : 0.18, 8, dt);
     }
   });
@@ -288,6 +311,7 @@ export function JourneyObject() {
   const discs = useRef<(Mesh | null)[]>([]);
   useReveal(g, moods("journey"), 1);
   useFrame((s, dt) => {
+    if (!g.current?.visible) return;
     const t = T(s.clock);
     place(g.current, 2.6, 2.7, dt, -0.2);
     if (spin.current) spin.current.rotation.y = t * 0.2 + scene.px * 0.3;
@@ -300,7 +324,6 @@ export function JourneyObject() {
   });
   return (
     <group ref={g} visible={false}>
-      <pointLight color={PALETTE.amber} intensity={7} distance={9} position={[2, 2, 3]} />
       <group ref={spin}>
         <mesh>
           <cylinderGeometry args={[0.02, 0.02, 4.4, 6]} />
@@ -333,8 +356,10 @@ export function LabWall() {
   const cols = useRef<InstancedMesh>(null);
   const dummy = useMemo(() => new Object3D(), []);
   const color = useMemo(() => new Color(), []);
+  const prepared = useRef<{ src: unknown; base: Float32Array } | null>(null);
   useReveal(g, moods("lab"), 1);
   useFrame((s, dt) => {
+    if (!g.current?.visible) return;
     const t = T(s.clock);
     place(g.current, 2.2, 2.6, dt, -0.3);
     const m = cols.current;
@@ -342,23 +367,31 @@ export function LabWall() {
     const repos = scene.repos;
     const n = Math.min(repos.length, 64);
     m.count = n;
-    const now = Date.now();
     const per = 8;
+    const fresh = prepared.current?.src !== repos;
+    if (fresh) {
+      const now = Date.now();
+      const base = new Float32Array(n);
+      for (let i = 0; i < n; i++) {
+        const r = repos[i];
+        const age = r.updated ? (now - new Date(r.updated).getTime()) / 864e5 : 90;
+        base[i] = 0.35 + Math.max(0, 1 - age / 120) * 1.1 + Math.min(r.stars, 8) * 0.05;
+        m.setColorAt(i, color.set(LANG_COLOR[r.language ?? ""] ?? "#6b7a8c"));
+      }
+      prepared.current = { src: repos, base };
+      if (m.instanceColor) m.instanceColor.needsUpdate = true;
+    }
+    const bases = prepared.current!.base;
     for (let i = 0; i < n; i++) {
-      const r = repos[i];
-      const age = r.updated ? (now - new Date(r.updated).getTime()) / 864e5 : 90;
-      const base = 0.35 + Math.max(0, 1 - age / 120) * 1.1 + Math.min(r.stars, 8) * 0.05;
-      const h = base * (1 + Math.sin(t * 1.3 + i * 0.7) * 0.05);
+      const h = bases[i] * (1 + Math.sin(t * 1.3 + i * 0.7) * 0.05);
       const x = (i % per) - (per - 1) / 2;
       const z = Math.floor(i / per) - 3;
       dummy.position.set(x * 0.52, h / 2 - 0.9, z * 0.52);
       dummy.scale.set(0.38, h, 0.38);
       dummy.updateMatrix();
       m.setMatrixAt(i, dummy.matrix);
-      m.setColorAt(i, color.set(LANG_COLOR[r.language ?? ""] ?? "#6b7a8c"));
     }
     m.instanceMatrix.needsUpdate = true;
-    if (m.instanceColor) m.instanceColor.needsUpdate = true;
     if (g.current) {
       g.current.rotation.y = damp(g.current.rotation.y, -0.7 + scene.px * 0.2, 3, dt);
       g.current.rotation.x = 0.5;
@@ -366,7 +399,6 @@ export function LabWall() {
   });
   return (
     <group ref={g} visible={false}>
-      <pointLight color={PALETTE.teal} intensity={7} distance={9} position={[2, 3, 3]} />
       <instancedMesh ref={cols} args={[undefined, undefined, 64]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial emissive={PALETTE.ink} emissiveIntensity={0.1} />
@@ -395,6 +427,7 @@ export function ContactObject() {
   }, []);
   useReveal(g, moods("contact", "lost"), 1);
   useFrame((s, dt) => {
+    if (!g.current?.visible) return;
     const t = T(s.clock);
     place(g.current, 2.6, 2.6, dt, 0);
     rings.current?.children.forEach((c, i) => {
@@ -418,7 +451,6 @@ export function ContactObject() {
   });
   return (
     <group ref={g} visible={false}>
-      <pointLight color={PALETTE.ice} intensity={8} distance={9} position={[1, 2, 3]} />
       <group ref={rings} rotation={[Math.PI / 2.2, 0, 0]}>
         {[0, 1, 2, 3].map((i) => (
           <mesh key={i}>
