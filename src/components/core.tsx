@@ -68,7 +68,14 @@ export function GoLink({ to, children, className, cursor, onClick }: { to: strin
 type Variant = "rise" | "scramble" | "wipe";
 
 /** Splits text into characters and animates them in. Reduced motion: a plain fade. */
-export function Kinetic({ text, as: Tag = "span", variant = "rise", delay = 0, className }: { text: string; as?: "span" | "h1" | "h2" | "p"; variant?: Variant; delay?: number; className?: string }) {
+type KineticProps = { text: string; as?: "span" | "h1" | "h2" | "p"; variant?: Variant; delay?: number; className?: string };
+
+/** SplitText swaps the element's text nodes, so React can no longer update them: a new text must remount the element. */
+export function Kinetic(props: KineticProps) {
+  return <KineticInner key={props.text} {...props} />;
+}
+
+function KineticInner({ text, as: Tag = "span", variant = "rise", delay = 0, className }: KineticProps) {
   const ref = useRef<HTMLElement>(null);
   useGSAP(
     () => {

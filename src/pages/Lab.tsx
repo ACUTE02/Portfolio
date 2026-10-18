@@ -21,8 +21,7 @@ export default function Lab() {
         </h1>
         <p className="muted small" role="status">
           {state === "live" && `${repos.length} public repositories, read live from the GitHub API. Taller columns were pushed more recently; colour is the language.`}
-          {state === "loading" && "Reading the repositories from GitHub."}
-          {state === "fallback" && "GitHub could not be reached just now, so this is the list the resumes link to."}
+          {state === "snapshot" && `${repos.length} public repositories, as last read from GitHub. The live list replaces this as soon as GitHub answers (it limits anonymous reads, so it can take a while).`}
         </p>
         <div className="filters" role="group" aria-label="Filter by language">
           {languages.map((l) => (

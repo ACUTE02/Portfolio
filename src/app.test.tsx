@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { readFileSync } from "node:fs";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -73,10 +73,20 @@ describe("the pages", () => {
     expect(await screen.findByLabelText(/leads nowhere/)).toBeDefined(); // the headline is split into characters, its label is whole
   });
 
-  it("repositories: falls back to the projects' repositories when GitHub cannot be reached", async () => {
+  it("repositories: shows the built-in snapshot, with languages, when GitHub cannot be reached", async () => {
     at("#/lab");
-    expect(await screen.findByText(/could not be reached just now/)).toBeDefined();
-    expect(document.querySelectorAll(".repo-wall a").length).toBe(PROJECTS.length);
+    expect(await screen.findByText(/as last read from GitHub/)).toBeDefined();
+    expect(document.querySelectorAll(".repo-wall a").length).toBeGreaterThanOrEqual(PROJECTS.length);
+    expect(document.querySelector(".repo-wall")?.textContent).toContain("Python");
+  });
+
+  it("each project page carries its own title, not the first one's", async () => {
+    for (const p of [PROJECTS[1], PROJECTS[3]]) {
+      cleanup();
+      at(`#/projects/${p.slug}`);
+      const h1 = await screen.findByRole("heading", { level: 1 });
+      await waitFor(() => expect(h1.querySelector("[aria-label]")?.getAttribute("aria-label")).toBe(p.title));
+    }
   });
 
   it("contact: validates, and says honestly that nothing is sent from the page", async () => {

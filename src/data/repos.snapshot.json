@@ -1,0 +1,239 @@
+{
+ "takenAt": "2026-10-18",
+ "repos": [
+  {
+   "name": "Trust_Mesh",
+   "description": "A fraud-triage workbench that combines a transaction-graph model and a voice-deepfake model, and is explicit about how far each result can be trusted.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Trust_Mesh",
+   "stars": 0,
+   "updated": "2026-10-17T20:16:42Z",
+   "fork": false
+  },
+  {
+   "name": "Grow-Vyaapar",
+   "description": null,
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Grow-Vyaapar",
+   "stars": 0,
+   "updated": "2026-10-05T18:04:41Z",
+   "fork": false
+  },
+  {
+   "name": "adaptive-learning-platform",
+   "description": "An AI-powered adaptive learning platform that personalizes education using LLM-generated courses, dynamic difficulty adjustment, Ebbinghaus-based knowledge retention tracking, automated remediation, collaborative learning, and real-time analytics. Built with a scalable full-stack architecture for intelligent and personalized learning experiences.",
+   "language": "TypeScript",
+   "url": "https://github.com/ACUTE02/adaptive-learning-platform",
+   "stars": 6,
+   "updated": "2026-10-04T20:24:19Z",
+   "fork": false
+  },
+  {
+   "name": "ACUTE02",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/ACUTE02",
+   "stars": 2,
+   "updated": "2026-09-27T14:55:35Z",
+   "fork": false
+  },
+  {
+   "name": "Climate-Domain-SLM-project",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/Climate-Domain-SLM-project",
+   "stars": 0,
+   "updated": "2026-09-23T05:02:34Z",
+   "fork": false
+  },
+  {
+   "name": "Voice-Command-Shopping-Assistant",
+   "description": null,
+   "language": "JavaScript",
+   "url": "https://github.com/ACUTE02/Voice-Command-Shopping-Assistant",
+   "stars": 0,
+   "updated": "2026-08-24T10:19:10Z",
+   "fork": false
+  },
+  {
+   "name": "Muti-Agent-Climate-Risk-Analyst",
+   "description": "An agentic GenAI climate-risk analysis system that combines ML forecasting, LangGraph, RAG, Gemini, live climate data, and mechanical grounding verification to generate honest drought, heat-stress, and crop-impact reports for India.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Muti-Agent-Climate-Risk-Analyst",
+   "stars": 1,
+   "updated": "2026-09-27T14:16:17Z",
+   "fork": false
+  },
+  {
+   "name": "Muti-Agent-AI-Research",
+   "description": "An AI-powered Multi-Agent Deep Research System built with LangChain, GoogleGemini,TavilySearch,BeautifulSoup,and Streamlit. It autonomously searches the web, extracts information from multiple sources, generates structured research reports, and performs AI-powered self-critique with quality scoring.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Muti-Agent-AI-Research",
+   "stars": 0,
+   "updated": "2026-08-15T09:43:54Z",
+   "fork": false
+  },
+  {
+   "name": "Facial-Recognition-Attendance-System",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/Facial-Recognition-Attendance-System",
+   "stars": 2,
+   "updated": "2026-08-10T17:43:27Z",
+   "fork": false
+  },
+  {
+   "name": "Stock-Prediction-System",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/Stock-Prediction-System",
+   "stars": 2,
+   "updated": "2026-08-07T15:18:22Z",
+   "fork": false
+  },
+  {
+   "name": "Data-Analysis-Visualization",
+   "description": "A Python data analysis project that explores IPL match statistics using Pandas, Matplotlib, and Seaborn. It answers key cricket analytics questions with visualizations, including winning teams, toss trends, top scorers, best bowlers, venues, and player performances.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Data-Analysis-Visualization",
+   "stars": 5,
+   "updated": "2026-08-07T15:17:40Z",
+   "fork": false
+  },
+  {
+   "name": "Revision_Data_visualization_-",
+   "description": "A complete revision and practice repository for Python Data Visualization using Matplotlib, Seaborn, and Plotly. Includes line plots, subplots, histograms, box plots, heatmaps, pair plots, regression plots, interactive charts, and image visualization with well-commented examples for beginners.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Revision_Data_visualization_-",
+   "stars": 2,
+   "updated": "2026-08-07T15:15:53Z",
+   "fork": false
+  },
+  {
+   "name": "Supervised_Learning_",
+   "description": "A Machine Learning classification project that predicts Titanic passenger survival using multiple algorithms including Logistic Regression, KNN, Naive Bayes, Decision Tree, and Support Vector Machine (SVM). The project covers data preprocessing, feature engineering, model training, and performance evaluation using Scikit-learn.",
+   "language": "Jupyter Notebook",
+   "url": "https://github.com/ACUTE02/Supervised_Learning_",
+   "stars": 2,
+   "updated": "2026-08-07T15:12:19Z",
+   "fork": false
+  },
+  {
+   "name": "Countries_Dataset_Analysis_project",
+   "description": "A Python data analysis project that explores a global countries dataset using Pandas and NumPy. The project demonstrates data preprocessing, filtering, aggregation, missing value analysis, and answers real-world analytical questions about population, regions, political leaders, democracy scores, and continents",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Countries_Dataset_Analysis_project",
+   "stars": 3,
+   "updated": "2026-08-07T15:14:19Z",
+   "fork": false
+  },
+  {
+   "name": "Statistical-Hypothesis-Testing-and-Outlier-Detection",
+   "description": "A Python project demonstrating essential statistical hypothesis tests and outlier detection techniques used in Data Science and Machine Learning. The repository includes implementations of Z-Test, One-Sample T-Test, Two-Sample T-Test, Chi-Square Test, One-Way ANOVA, and IQR-based Outlier Detection using NumPy, Pandas, SciPy, Seaborn, and Matplotlib",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Statistical-Hypothesis-Testing-and-Outlier-Detection",
+   "stars": 4,
+   "updated": "2026-08-07T15:11:39Z",
+   "fork": false
+  },
+  {
+   "name": "python_Data_Science_Revision",
+   "description": "Personal revision notes covering the two most powerful Python libraries for data science. ",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/python_Data_Science_Revision",
+   "stars": 2,
+   "updated": "2026-08-07T15:13:35Z",
+   "fork": false
+  },
+  {
+   "name": "Pandas-Data-Cleaning-Text-Extraction",
+   "description": "A Python data preprocessing project that demonstrates text extraction and feature engineering on an Anime dataset using Pandas. The project extracts episode counts and runtime information from raw text using custom functions, regular expressions, and string manipulation techniques.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Pandas-Data-Cleaning-Text-Extraction",
+   "stars": 1,
+   "updated": "2026-08-07T15:10:05Z",
+   "fork": false
+  },
+  {
+   "name": "Heart_Disease",
+   "description": "An end-to-end Machine Learning project that predicts the risk of heart disease using multiple classification algorithms. The project includes exploratory data analysis (EDA), data cleaning, feature engineering, preprocessing, model comparison, and model serialization for future deployment with a Streamlit web application.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Heart_Disease",
+   "stars": 2,
+   "updated": "2026-08-07T15:08:07Z",
+   "fork": false
+  },
+  {
+   "name": "LSTM_model_drought_",
+   "description": "An LSTM-based deep learning project for drought trend prediction using time-series forecasting. The project includes seasonal decomposition, data preprocessing, normalization, stacked LSTM networks, prediction visualization, and model training using TensorFlow and Keras.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/LSTM_model_drought_",
+   "stars": 1,
+   "updated": "2026-08-07T15:09:40Z",
+   "fork": false
+  },
+  {
+   "name": "Machine_learning",
+   "description": "This project is much more than a simple Linear Regression model.It demonstrates a complete Machine Learning pipeline on the Medical Insurance Cost Prediction dataset, including EDA, Data Cleaning, Feature Engineering, Feature Selection (Pearson Correlation & Chi-Square),Standardization,Linear Regression,and Model Evaluation using R\u00b2 and Adjusted R\u00b2",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Machine_learning",
+   "stars": 1,
+   "updated": "2026-08-07T15:10:35Z",
+   "fork": false
+  },
+  {
+   "name": "Unsupervised_Learning_",
+   "description": "A comprehensive Machine Learning repository covering supervised and unsupervised learning concepts including Cross Validation, Hyperparameter Tuning, Stacking, PCA, and Clustering using Scikit-learn with practical Python implementations.",
+   "language": "Jupyter Notebook",
+   "url": "https://github.com/ACUTE02/Unsupervised_Learning_",
+   "stars": 1,
+   "updated": "2026-08-07T15:09:08Z",
+   "fork": false
+  },
+  {
+   "name": "Pydantic_Project-",
+   "description": "A Python project demonstrating Pydantic v2 for data validation and serialization. It validates restaurant menu data using field validators, model validators, computed fields, nested models, strict type checking, and JSON serialization while identifying invalid records through structured validation.",
+   "language": "Python",
+   "url": "https://github.com/ACUTE02/Pydantic_Project-",
+   "stars": 1,
+   "updated": "2026-08-07T15:07:19Z",
+   "fork": false
+  },
+  {
+   "name": "HelpDeskManagement",
+   "description": null,
+   "language": "C#",
+   "url": "https://github.com/ACUTE02/HelpDeskManagement",
+   "stars": 0,
+   "updated": "2026-08-07T15:04:36Z",
+   "fork": false
+  },
+  {
+   "name": "Computer-Vision-",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/Computer-Vision-",
+   "stars": 1,
+   "updated": "2026-03-31T18:00:17Z",
+   "fork": false
+  },
+  {
+   "name": "Library_Management",
+   "description": null,
+   "language": "Java",
+   "url": "https://github.com/ACUTE02/Library_Management",
+   "stars": 2,
+   "updated": "2026-05-18T12:08:37Z",
+   "fork": false
+  },
+  {
+   "name": "Resume",
+   "description": null,
+   "language": null,
+   "url": "https://github.com/ACUTE02/Resume",
+   "stars": 2,
+   "updated": "2026-07-20T20:50:17Z",
+   "fork": false
+  }
+ ]
+}
