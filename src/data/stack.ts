@@ -18,13 +18,13 @@ export const SKILLS: { id: string; group: GroupId }[] = [
   { id: "Scikit-learn", group: "ml" }, { id: "XGBoost", group: "ml" }, { id: "PyTorch", group: "ml" }, { id: "TensorFlow", group: "ml" },
   { id: "OpenCV", group: "ml" }, { id: "LSTM", group: "ml" }, { id: "Time-series", group: "ml" }, { id: "MediaPipe", group: "ml" },
   { id: "Gemini API", group: "genai" }, { id: "RAG", group: "genai" }, { id: "Embeddings", group: "genai" }, { id: "Prompt engineering", group: "genai" },
-  { id: "QLoRA", group: "genai" },
+  { id: "QLoRA", group: "genai" }, { id: "DPO", group: "genai" }, { id: "Hugging Face", group: "genai" }, { id: "vLLM", group: "genai" },
   { id: "LangGraph", group: "agent" }, { id: "LangChain", group: "agent" }, { id: "Multi-agent", group: "agent" }, { id: "Function calling", group: "agent" },
   { id: "FastAPI", group: "back" }, { id: "REST APIs", group: "back" }, { id: "Docker", group: "back" }, { id: "ASP.NET Core", group: "back" },
   { id: "React", group: "front" }, { id: "Next.js", group: "front" }, { id: "Three.js", group: "front" },
   { id: "PostgreSQL", group: "data" }, { id: "pgvector", group: "data" }, { id: "ChromaDB", group: "data" }, { id: "Neo4j", group: "data" },
   { id: "Pandas", group: "data" }, { id: "NumPy", group: "data" }, { id: "Matplotlib", group: "data" },
-  { id: "Git", group: "tools" }, { id: "GitHub", group: "tools" }, { id: "pytest", group: "tools" },
+  { id: "Git", group: "tools" }, { id: "GitHub", group: "tools" }, { id: "pytest", group: "tools" }, { id: "MLflow", group: "tools" },
 ];
 
 export const LINKS: [string, string][] = [
@@ -35,5 +35,6 @@ export const LINKS: [string, string][] = [
   ["XGBoost", "Neo4j"], ["LSTM", "Time-series"], ["LSTM", "TensorFlow"], ["Time-series", "Scikit-learn"], ["OpenCV", "MediaPipe"],
   ["Python", "OpenCV"], ["Pandas", "NumPy"], ["Pandas", "Matplotlib"], ["Python", "Pandas"], ["React", "Three.js"], ["React", "Next.js"],
   ["Next.js", "FastAPI"], ["TypeScript", "React"], ["JavaScript", "React"], ["C#", "ASP.NET Core"], ["SQL", "PostgreSQL"],
+  ["Hugging Face", "QLoRA"], ["QLoRA", "DPO"], ["DPO", "PyTorch"], ["vLLM", "FastAPI"], ["vLLM", "Hugging Face"], ["MLflow", "QLoRA"],
   ["Git", "GitHub"], ["pytest", "Python"], ["pytest", "FastAPI"], ["Java", "SQL"], ["C++", "SQL"],
 ];

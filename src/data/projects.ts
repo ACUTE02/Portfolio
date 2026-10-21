@@ -32,6 +32,20 @@ export const PROJECTS: Project[] = [
     figure: { value: "0.7482", label: "PR-AUC, time split" },
   },
   {
+    slug: "climate-slm", motif: "slm", title: "Climate-Domain SLM", kind: "Small-model fine-tuning and serving", status: "Built, measured", color: "#8fb4e8",
+    summary: "Qwen2.5 (0.5B and 1.5B) tuned to answer from a passage, or say it cannot, on Indian climate and disaster-management documents.",
+    story: [
+      "252 question-answer items built from 181 chunks of six Indian government documents (NDMA, IMD, ICAR, NIH Roorkee). Some questions are paired with a passage that does not hold the answer, and the model must reply with one exact refusal sentence. Split 156 / 53 / 43, checked by an independent LLM pass with evidence quotes and a human spot-check.",
+      "LoRA SFT with Hugging Face Transformers and PEFT: a small grid over learning rate and LoRA against 4-bit QLoRA, three seeds for the winner, the checkpoint picked on validation by a rule written before the runs. The test split was used once per frozen model.",
+      "Best model, 1.5B SFT: token F1 0.791 [0.688, 0.882], 0 of 32 false refusals and 11 of 11 correct refusals on test. Untuned, the 0.5B model got 0 of 11 refusals right and the 1.5B got 6. What tuning clearly adds is the refusal behaviour.",
+      "DPO with a hand-written loss: v1 failed on validation (the models copied the passage instead of refusing) and never touched test. v2 added an NLL term and new pairs. Its gain over SFT sits inside overlapping intervals, so no claim is made that DPO beat SFT.",
+      "Served with vLLM behind FastAPI (plus a plain transformers and a fake backend, micro-batching, no logging of the text). A parity check matched the evaluator on 52 to 53 of 53 prompts. On a free Colab T4, vLLM was about 3 to 4 times faster than plain transformers for the 0.5B models. Runs tracked in MLflow; 405 tests.",
+    ],
+    stack: ["Python", "Qwen2.5", "Transformers", "PEFT", "LoRA / QLoRA", "DPO", "vLLM", "FastAPI", "MLflow", "pytest"],
+    repoName: "Climate-Domain-SLM-project", repo: "https://github.com/ACUTE02/Climate-Domain-SLM-project",
+    figure: { value: "11 / 11", label: "correct refusals, 1.5B SFT (test)" },
+  },
+  {
     slug: "climate-risk-analyst", motif: "climate", title: "Multi-Agent Climate Risk Analyst", kind: "Agentic GenAI system", status: "Shipped", color: "#6fd3c4",
     summary: "Six LangGraph agents that forecast drought, retrieve evidence and check their own claims.",
     story: [
@@ -68,18 +82,6 @@ export const PROJECTS: Project[] = [
     stack: ["FastAPI", "TypeScript", "LangChain", "Gemini", "PostgreSQL", "pgvector", "SQLModel", "Alembic", "APScheduler"],
     repoName: "adaptive-learning-platform", repo: "https://github.com/ACUTE02/adaptive-learning-platform",
     figure: { value: "768-d", label: "embeddings in pgvector" },
-  },
-  {
-    slug: "climate-slm", motif: "slm", title: "Climate-Domain SLM", kind: "Fine-tuning pipeline", status: "Currently building", color: "#f2b95a",
-    summary: "Fine-tuning an open-weight model on climate question answering, then measuring what it costs to serve.",
-    story: [
-      "QLoRA fine-tuning with HuggingFace Transformers and PEFT over a domain question-answer dataset derived from a curated technical corpus.",
-      "DPO preference alignment with TRL, with runs, hyperparameters and metrics tracked in MLflow.",
-      "vLLM inference behind FastAPI to benchmark latency, throughput and token cost against the base model. No results are claimed yet.",
-    ],
-    stack: ["Transformers", "PEFT", "QLoRA", "TRL", "MLflow", "vLLM", "FastAPI"],
-    repoName: "Climate-Domain-SLM-project", repo: "https://github.com/ACUTE02/Climate-Domain-SLM-project",
-    figure: { value: "in progress", label: "no results claimed yet" },
   },
   {
     slug: "deep-research-agent", motif: "research", title: "Deep Research Agent", kind: "Multi-agent research pipeline", status: "Built", color: "#6fd3c4",

@@ -1,6 +1,15 @@
 {
- "takenAt": "2026-10-18",
+ "takenAt": "2026-10-21",
  "repos": [
+  {
+   "name": "Portfolio",
+   "description": null,
+   "language": "TypeScript",
+   "url": "https://github.com/ACUTE02/Portfolio",
+   "stars": 0,
+   "updated": "2026-10-21T00:00:00Z",
+   "fork": false
+  },
   {
    "name": "Trust_Mesh",
    "description": "A fraud-triage workbench that combines a transaction-graph model and a voice-deepfake model, and is explicit about how far each result can be trusted.",
@@ -39,11 +48,11 @@
   },
   {
    "name": "Climate-Domain-SLM-project",
-   "description": null,
-   "language": null,
+   "description": "Qwen2.5 (0.5B and 1.5B) tuned with LoRA SFT and DPO to answer from a given passage or refuse, on Indian climate and disaster-management documents. One evaluator, vLLM + FastAPI serving, benchmarked.",
+   "language": "Python",
    "url": "https://github.com/ACUTE02/Climate-Domain-SLM-project",
    "stars": 0,
-   "updated": "2026-09-23T05:02:34Z",
+   "updated": "2026-10-21T00:00:00Z",
    "fork": false
   },
   {
